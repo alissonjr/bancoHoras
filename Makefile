@@ -1,11 +1,13 @@
+args = `arg="$(filter-out $@,$(MAKECMDGOALS))" && echo $${arg:-${1}}`
+
 run:
 	@docker-compose up -d
 
-key.generate:
+artisan.key:
 	@docker-compose exec app php artisan key:generate
 
 db.bash:
 	@docker-compose exec db bash
 
-composer:
-	@docker run composer composer install
+artisan.make:
+	@docker-compose exec app php artisan make:$(call args)
